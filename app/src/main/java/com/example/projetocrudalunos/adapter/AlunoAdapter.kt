@@ -1,16 +1,16 @@
 package com.example.projetocrudalunos.adapter
 
-import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.projetocrudalunos.R
 import com.example.projetocrudalunos.model.Aluno
 
+
 class AlunoAdapter (private var listaAlunos:ArrayList<Aluno>) : RecyclerView.Adapter<AlunoAdapter.MyViewHolder>() {
+    var onItemClickListener: OnItemClickListener? = null
 
     class MyViewHolder : RecyclerView.ViewHolder {
         var textMatricula: TextView
@@ -35,7 +35,17 @@ class AlunoAdapter (private var listaAlunos:ArrayList<Aluno>) : RecyclerView.Ada
         holder.textMatricula.text = listaAlunos.get(position).matricula
         holder.textNome.text = listaAlunos.get(position).nome
         holder.textTelefone.text = listaAlunos.get(position).telefone
+        holder.itemView.setOnClickListener {
+            onItemClickListener?.onItemClicked(
+                holder.itemView,
+                position
+            )
+        }
     }
 
     override fun getItemCount() = listaAlunos.size
+
+    interface OnItemClickListener {
+        fun onItemClicked(view: View, position: Int)
+    }
 }
